@@ -107,9 +107,9 @@ and open the template in the editor.
                 }
                 $F=0;
                 if(!$flag){
-                    $blank = " ";
+                    $blank = "";
                     $organisations = "o".$organisation;
-                    $sql = "INSERT INTO ".$organisations." values(id, '$first', $region , '$blank', '$blank', '$blank')";
+                    $sql = "INSERT INTO ".$organisations." values(id, '$first', $region , '$blank')";
                     $E = mysqli_query($conn, $sql);
                     $result = mysqli_query($conn, "select * from ".$organisations." order by id desc limit 1");
                     if(mysqli_num_rows($result)>0){

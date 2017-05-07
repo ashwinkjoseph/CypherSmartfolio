@@ -32,10 +32,15 @@ and open the template in the editor.
                         echo mysqli_error($conn);
                     }
                     else{
+                        $projects = array();
                         $var = mysqli_fetch_array($result);
                         $var2 = mysqli_fetch_array($result2);
-                        $projects = $var2['Projects']." ".$var['Project_id'];
-                        if(mysqli_query($conn, "UPDATE o".$o_id." SET Projects='$projects' WHERE id=".$user_id)){
+                        if($var2['Projects']!=""){
+                            $projects = explode(",",$var2['Projects']);
+                        }
+                        array_push($projects, $var['Project_id']);
+                        $pstring = implode(",", $projects);
+                        if(mysqli_query($conn, "UPDATE o".$o_id." SET Projects='$pstring' WHERE id=".$user_id)){
                             echo "<script>alert('success');</alert>";
                             header("location:getuser.php?id1=".$user_id."&id2=".$o_id);
                         }
