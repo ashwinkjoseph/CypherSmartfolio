@@ -7,9 +7,9 @@ and open the template in the editor.
 <html>
     <head>
         <?php
-        $user_id = $_GET['id1'];
-        $o_id = $_GET['id2'];
         $conn = mysqli_connect("localhost", "root", "", "matthew");
+        $user_id = mysqli_real_escape_string($conn, $_GET['id1']);
+        $o_id = mysqli_real_escape_string($conn, $_GET['id2']);
         $result = mysqli_query($conn, "select * from ".$o_id." where id=".$user_id);
         if($result){
         $var = mysqli_fetch_array($result);

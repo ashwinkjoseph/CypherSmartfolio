@@ -11,16 +11,16 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        $user_id = $_GET['id1'];
-        $o_id = $_GET['id2'];
         $conn = mysqli_connect("localhost", "root", "", "matthew");
+        $user_id = mysqli_real_escape_string($conn, $_GET['id1']);
+        $o_id = mysqli_real_escape_string($conn, $_GET['id2']);
         if(isset($_POST['submitproject'])){
-            $platform = $_POST['platform'];
-            $language = $_POST['language'];
-            $hardware = $_POST['hardware'];
-            $link = $_POST['link'];
-            $description = $_POST['description'];
-            $school = $_POST['school'];
+            $platform = mysqli_real_escape_string($conn, $_POST['platform']);
+            $language = mysqli_real_escape_string($conn, $_POST['language']);
+            $hardware = mysqli_real_escape_string($conn, $_POST['hardware']);
+            $link = mysqli_real_escape_string($conn, $_POST['link']);
+            $description = mysqli_real_escape_string($conn, $_POST['description']);
+            $school = mysqli_real_escape_string($conn, $_POST['school']);
             if(mysqli_query($conn, "insert into projects values(Project_id, '$platform', '$language', '$hardware', '$link', '$description', $user_id, $o_id, '$school')")){
                 $result = mysqli_query($conn, "select * from projects order by Project_id desc limit 1");
                 if(!$result){

@@ -13,8 +13,8 @@ and open the template in the editor.
         <select name='organisation'>
             <option value =" " selected="1">Organisation</option>
             <?php 
-            $o_id = intval($_GET['q']);
             $conn = mysqli_connect("localhost", "root", "", "matthew");
+            $o_id = intval(mysqli_real_escape_string($conn, $_GET['q']));
             $result = mysqli_query($conn, "select * from organisations where Region_id = $o_id");
             while($var = mysqli_fetch_array($result)){
                 ?>

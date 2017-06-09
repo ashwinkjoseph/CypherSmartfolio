@@ -24,30 +24,6 @@ and open the template in the editor.
         </style>
     </head>
     <body style="margin:0px; background-repeat:repeat-x;">
-        <script>
-            function getdata(){
-                var region = document.getElementById("region").value;
-                if (region==" "){
-                    alert('Please select a region to proceed');
-                }
-                else{
-                    if(window.XMLHttpRequest){
-                        xmlhttp = new XMLHttpRequest();
-                    }else{
-                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-                    xmlhttp.open("GET", "getorganisation.php?q="+region+ "&__cachebuster__=" + new Date().getTime(),true);
-                    xmlhttp.onreadystatechange = function(){
-                        if(this.readyState == 4 && this.status == 200){
-                            var sel = document.createElement("div");
-                            sel.innerHTML = this.responseText;
-                            document.getElementById("submission").appendChild(sel);
-                        }
-                    }
-                    xmlhttp.send();
-                }
-            }
-        </script>
         <div>
        <div style="background-color:lightgray; width:100%; height:100px;">
            <form align="Right" method="POST"><br><br>
@@ -60,14 +36,13 @@ and open the template in the editor.
            session_start();
            $conn=mysqli_connect("localhost","root","","matthew");
         if(isset($_POST["login"])){
-            $username = mysqli_real_escape_string($conn, $_POST["email"]);
-            $password = mysqli_real_escape_string($conn, $_POST["password"]);
-            $s=mysqli_query($conn, "SELECT * FROM logins where email='$username' and password='$password'");
+            $username=$_POST["email"];
+            $password=$_POST["password"];
+            $s=mysqli_query($conn, "SELECT * FROM hrlogins where email='$username' and password='$password'");
             if(mysqli_num_rows($s)>0){
                 $temp=mysqli_fetch_array($s);
                 $id1 = $temp['user_id'];
-                $id2 = $temp['O_id'];
-                header("location:getuser.php?id1=".$id1."&id2=".$id2);
+                header("location:getuser.php?id1=".$id1);
             }
             else{
                  echo "<script>alert('The Credentials you entered are wrong')</script>";
@@ -77,29 +52,36 @@ and open the template in the editor.
         </div>
         <div style="width:100%;background-image:url('back.jpg'); background-repeat: repeat-x; padding-bottom: 15px">
             <form id='submission' align="Center" method="POST">
-                <input type="text" name="name" placeholder="Name" style="width:150px; height:40px;margin-left:655px; margin-top:100px ">         
+                <input type="text" name="name" placeholder="Name" style="width:150px; height:40px;margin-left:655px; margin-top:100px">         
                 <input type="email" name="email1" placeholder="Email ID" style="width:300px; height:40px;margin-left:650px;"></br><br>
                 <input type="password" name="password1" placeholder="New Password" style="width:300px; height:40px;margin-left:650px;"><br><br>
-                <select id='region' aria-label="Region" name="Region" title="Region" style="height:40px; margin-left:560px;" onchange="getdata()">
-                    <option value=" " selected="1">Region</option>
+                <input list="companies" name="comapnyname" style="width:150px; height:40px;margin-left:655px; margin-top:100px">
+                <datalist id="companies">
                     <?php
-                    $var = mysqli_query($conn, "select * from regions");
-                    while($v = mysqli_fetch_array($var)){
-                    ?>
-                    <option value="<?php echo $v['Region_id']; ?>"><?php echo $v['Region_Name']; ?></option>    
-                    <?php } ?>
-                </select>
+                    $query = "SELECT * FROM COMPANIES";
+                    $var = mysqli_query($conn, $query);
+                    while($temp = mysqli_fetch_array($var)){
+                        ?>
+                    <option value="<?php echo $temp['name'] ?>-<?php echo $temp['id'] ?>">
+                        <?php
+                    }?>
+                </datalist>
+                <input type="password" name="companykey" placeholder="Company Key" style="width:150px; height:40px;margin-left:655px; margin-top:100px">
                 <input type="submit" name="signup" value="SignUp" style="width:150px; height:40px;margin-left:500px;"><br>
             </form>    
             <?php 
             if(isset($_POST["signup"])){
                 $first = mysqli_real_escape_string($conn, $_POST["name"]);
                 $email = mysqli_real_escape_string($conn, $_POST["email1"]);
-                $pass = mysqli_real_escape_string($conn, $_POST["password1"]);
-                $region = mysqli_real_escape_string($conn, $_POST['Region']);
-                $organisation = mysqli_real_escape_string($conn, $_POST['organisation']);
-                $var=mysqli_query($conn, "select * from logins");
-                $flag=FALSE;
+                $pass = mysqli_real_escape_string($conn. $_POST["password1"]);
+                $companyname = explode("-", mysqli_real_escape_string($conn, $_POST['companyname']));
+                $companyid = $companyname[1];
+                $companykey = mysqli_real_escape_string($conn, $_POST['companykey']);
+                $var=mysqli_query($conn, "select * from hrlogins");
+                $flag=TRUE;
+                while($temp = mysqli_fetch_array($var)){
+                    if($temp["id"]==)
+                }
                 while($temp=mysqli_fetch_array($var)){
                     if($temp["email"]==$email){
                         $flag=TRUE;
