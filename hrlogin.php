@@ -34,15 +34,19 @@ and open the template in the editor.
            </form>
            <?php
            session_start();
-           $conn=mysqli_connect("localhost","root","","matthew");
+           $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset==utf8", "root", "");
+           $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if(isset($_POST["login"])){
             $username=$_POST["email"];
             $password=$_POST["password"];
-            $s=mysqli_query($conn, "SELECT * FROM hrlogins where email='$username' and password='$password'");
-            if(mysqli_num_rows($s)>0){
-                $temp=mysqli_fetch_array($s);
+            $s= $handler->prepare("SELECT * FROM hrlogins where email=:username and password=:password");
+            $s->bindParam(":username", $username);
+            $s->bindParam(":password", $password);
+            $s->execute();
+            if($s->rowCount()){
+                $temp = $s->fetch(PDO::FETCH_ASSOC);
                 $id1 = $temp['user_id'];
-                header("location:getuser.php?id1=".$id1);
+                header("location:gethruser.php?id1=".$id1."&name=".$temp['name']);
             }
             else{
                  echo "<script>alert('The Credentials you entered are wrong')</script>";
@@ -59,8 +63,8 @@ and open the template in the editor.
                 <datalist id="companies">
                     <?php
                     $query = "SELECT * FROM COMPANIES";
-                    $var = mysqli_query($conn, $query);
-                    while($temp = mysqli_fetch_array($var)){
+                    $var = $handler->query($query);
+                    while($temp = $var->fetch(PDO::FETCH_ASSOC)){
                         ?>
                     <option value="<?php echo $temp['name'] ?>-<?php echo $temp['id'] ?>">
                         <?php
@@ -71,47 +75,42 @@ and open the template in the editor.
             </form>    
             <?php 
             if(isset($_POST["signup"])){
-                $first = mysqli_real_escape_string($conn, $_POST["name"]);
-                $email = mysqli_real_escape_string($conn, $_POST["email1"]);
-                $pass = mysqli_real_escape_string($conn. $_POST["password1"]);
+                $first = $_POST["name"];
+                $email = $_POST["email1"];
+                $pass = $_POST["password1"];
                 $companyname = explode("-", mysqli_real_escape_string($conn, $_POST['companyname']));
                 $companyid = $companyname[1];
-                $companykey = mysqli_real_escape_string($conn, $_POST['companykey']);
-                $var=mysqli_query($conn, "select * from hrlogins");
+                $companykey = $_POST['companykey'];
+                $var = $handler->query("select * from COMPANIES");
                 $flag=TRUE;
-                while($temp = mysqli_fetch_array($var)){
-                    if($temp["id"]==)
+                while($temp = $var->fetch(PDO::FETCH_ASSOC)){
+                    if($temp["id"]==$companyid){
+                        if($companykey==$temp['companykey']){
+                            $flag = FALSE;
+                        }
+                    }
                 }
+                $var = $handler->query("select * from hrlogins");
                 while($temp=mysqli_fetch_array($var)){
                     if($temp["email"]==$email){
                         $flag=TRUE;
                     }
                 }
-                $F=0;
+                $result = false;
                 if(!$flag){
                     $blank = "";
-                    $organisations = "o".$organisation;
-                    $sql = "INSERT INTO ".$organisations." values(id, '$first', $region , '$blank')";
-                    $E = mysqli_query($conn, $sql);
-                    $result = mysqli_query($conn, "select * from ".$organisations." order by id desc limit 1");
-                    if(mysqli_num_rows($result)>0){
-                        $var = mysqli_fetch_array($result);
-                        $user_id = $var['id'];
-                        $F = mysqli_query($conn,"INSERT INTO logins values(id, '$email', '$pass', $region, $organisation, $user_id)");
+                    $sql = "INSERT INTO hrlogins values(id, :name, :email, :pass, :companyid)";
+                    $result = $handler->prepare($sql);
+                    $result->bindParam(":name", $first);
+                    $result->bindParam(":email", $email);
+                    $result->bindParam(":pass", $pass);
+                    $result->bindParam(":companyid", $companyid, PDO::PARAM_INT);
+                    if($result->execute()){
+                        echo "<script>alert('Success')</script>";
                     }
                 }
-                if($F && $E){
-                    echo "<script>alert('Success')</script>";
-                }
-                else{
-                    $er = mysqli_error($conn);
-                    echo "<script>alert('Failed')</script>";
-                    echo $er;
-                }
-                    
             }
         ?>
-            
         </div>
             <div class="wrapper" style="background-color: #3d3d3d;">
                 <font color="white">  Designed By Joseph Ashwin Kottapurath, MACE, Kothamangalam</font>

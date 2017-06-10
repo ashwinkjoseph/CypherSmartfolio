@@ -10,16 +10,10 @@ and open the template in the editor.
         try{
         $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
         $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $user_id = intval($_GET['id1']);
-        $o_id = intval($_GET['id2']);
-        $org = "o".$o_id;
-        $result = $handler->prepare("select * from ".$org." where id = :user_id");
-        $result->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-        $result->execute();
-        $var = $result->fetch(PDO::FETCH_ASSOC);
+        $user_id = $_GET['id1'];
         ?>
         <meta charset="UTF-8">
-        <title><?php echo $var['Name']; ?></title>
+        <title><?php echo $_GET['name']; ?></title>
     </head>
     <body>
             <meta charset="UTF-8">
@@ -27,7 +21,7 @@ and open the template in the editor.
     </head>
     <body>
         <form action="addProject.php?id1=<?php echo $user_id; ?>&id2=<?php echo $o_id; ?>" method="POST">
-            <select name="platform">
+            <select name="region">
                 <option value=" " selected="1">Platform</option>
                 <option value="ARM">ARM</option>
                 <option value="x86">x86</option>
