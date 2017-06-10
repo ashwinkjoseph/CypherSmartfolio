@@ -57,14 +57,29 @@ and open the template in the editor.
                  <!--<button name="login">submit</button>-->
            </form>
            <?php
-           session_start();
-           $conn=mysqli_connect("localhost","root","","matthew");
+           $count = 0;
+           try{
+               $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
+               $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+           }
+           catch(PDOException $e){
+               die("Sorry, Error Establishing Connection To Database");
+           }
+           class logindetails{
+               public function __construct() {
+                   $count++;
+               }
+           }
+           try{
         if(isset($_POST["login"])){
-            $username = mysqli_real_escape_string($conn, $_POST["email"]);
-            $password = mysqli_real_escape_string($conn, $_POST["password"]);
-            $s=mysqli_query($conn, "SELECT * FROM logins where email='$username' and password='$password'");
-            if(mysqli_num_rows($s)>0){
-                $temp=mysqli_fetch_array($s);
+            $username = $_POST["email"];
+            $password = $_POST["password"];
+            $query = $handler->prepare("SELECT * FROM logins where email=:email and password=:password");
+            $query->bindParam(":email", $username);
+            $query->bindParam(":password", $password);
+            $query->execute();
+            if($query->rowCount()){
+                $temp = $query->fetch(PDO::FETCH_ASSOC);
                 $id1 = $temp['user_id'];
                 $id2 = $temp['O_id'];
                 header("location:getuser.php?id1=".$id1."&id2=".$id2);
@@ -83,8 +98,8 @@ and open the template in the editor.
                 <select id='region' aria-label="Region" name="Region" title="Region" style="height:40px; margin-left:560px;" onchange="getdata()">
                     <option value=" " selected="1">Region</option>
                     <?php
-                    $var = mysqli_query($conn, "select * from regions");
-                    while($v = mysqli_fetch_array($var)){
+                    $var = $handler->query("select * from regions");
+                    while($v = $var->fetch(PDO::FETCH_ASSOC)){
                     ?>
                     <option value="<?php echo $v['Region_id']; ?>"><?php echo $v['Region_Name']; ?></option>    
                     <?php } ?>
@@ -93,14 +108,14 @@ and open the template in the editor.
             </form>    
             <?php 
             if(isset($_POST["signup"])){
-                $first = mysqli_real_escape_string($conn, $_POST["name"]);
-                $email = mysqli_real_escape_string($conn, $_POST["email1"]);
-                $pass = mysqli_real_escape_string($conn, $_POST["password1"]);
-                $region = mysqli_real_escape_string($conn, $_POST['Region']);
-                $organisation = mysqli_real_escape_string($conn, $_POST['organisation']);
-                $var=mysqli_query($conn, "select * from logins");
+                $first = $_POST["name"];
+                $email = $_POST["email1"];
+                $pass = $_POST["password1"];
+                $region = $_POST['Region'];
+                $organisation = $_POST['organisation'];
+                $var = $handler->query("select * from logins");
                 $flag=FALSE;
-                while($temp=mysqli_fetch_array($var)){
+                while($temp = $var->fetch(PDO::FETCH_ASSOC)){
                     if($temp["email"]==$email){
                         $flag=TRUE;
                     }
@@ -109,25 +124,32 @@ and open the template in the editor.
                 if(!$flag){
                     $blank = "";
                     $organisations = "o".$organisation;
-                    $sql = "INSERT INTO ".$organisations." values(id, '$first', $region , '$blank')";
-                    $E = mysqli_query($conn, $sql);
-                    $result = mysqli_query($conn, "select * from ".$organisations." order by id desc limit 1");
-                    if(mysqli_num_rows($result)>0){
-                        $var = mysqli_fetch_array($result);
+                    $sql = "INSERT INTO $organisations values(id, :first, :region, :blank)";
+                    $query = $handler->prepare($sql);
+                    $query->bindParam(":first", $first);
+                    $query->bindParam(":region", $region, PDO::PARAM_INT);
+                    $query->bindParam(":blank", $blank);
+                    $query->execute();
+                    $query = $handler->prepare("select * from $organisations order by id desc limit 1");
+                    $query->execute();
+                    if($query->rowCount()){
+                        $var = $query->fetch(PDO::FETCH_ASSOC);
                         $user_id = $var['id'];
-                        $F = mysqli_query($conn,"INSERT INTO logins values(id, '$email', '$pass', $region, $organisation, $user_id)");
+                        $F = $handler->prepare("INSERT INTO logins values(id, :email, :pass, :region, :organisation, :user_id)");
+                        $F->bindParam(":email", $email);
+                        $F->bindParam(":pass", $pass);
+                        $F->bindParam(":region", $region);
+                        $F->bindParam(":organisation", $organisation);
+                        $F->bindParam(":user_id", $user_id);
+                        $F->execute();
                     }
                 }
-                if($F && $E){
-                    echo "<script>alert('Success')</script>";
                 }
-                else{
-                    $er = mysqli_error($conn);
+           }
+                catch(PDOException $e){
+                    echo $e->getMessage();
                     echo "<script>alert('Failed')</script>";
-                    echo $er;
                 }
-                    
-            }
         ?>
             
         </div>

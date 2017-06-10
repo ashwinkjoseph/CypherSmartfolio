@@ -13,13 +13,22 @@ and open the template in the editor.
         <select name='organisation'>
             <option value =" " selected="1">Organisation</option>
             <?php 
-            $conn = mysqli_connect("localhost", "root", "", "matthew");
-            $o_id = intval(mysqli_real_escape_string($conn, $_GET['q']));
-            $result = mysqli_query($conn, "select * from organisations where Region_id = $o_id");
-            while($var = mysqli_fetch_array($result)){
+            try{
+            $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
+            $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $o_id = intval($_GET['q']);
+            $result = $handler->prepare("select * from organisations where Region_id = :o_id");
+            $result->bindParam(":o_id", $o_id, PDO::PARAM_INT);
+            $result->execute();
+            while($var = $result->fetch(PDO::FETCH_ASSOC)){
                 ?>
             <option value="<?php echo $var['id']; ?>"><?php echo $var['Name']; ?></option>
-            <?php } ?>
+            <?php }
+            }
+            catch(PDOException $e){
+                echo $e->getMessage();
+            }
+            ?>
         </select>
     </body>
 </html>

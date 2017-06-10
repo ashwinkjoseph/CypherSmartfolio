@@ -7,26 +7,23 @@ and open the template in the editor.
 <html>
     <head>
         <?php
-        $conn = mysqli_connect("localhost", "root", "", "matthew");
-        $user_id = mysqli_real_escape_string($conn, $_GET['id1']);
-        $o_id = mysqli_real_escape_string($conn, $_GET['id2']);
-        $result = mysqli_query($conn, "select * from ".$o_id." where id=".$user_id);
-        if($result){
-        $var = mysqli_fetch_array($result);
+//        try{
+        $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
+        $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $user_id = $_GET['id1'];
+        $o_id = $_GET['id2'];
+        $result = $handler->prepare("select * from ".$o_id." where id = :user_id");
+        $result->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+        $var = $result->fetch(PDO::FETCH_ASSOC);
         ?>
         <meta charset="UTF-8">
         <title><?php echo $var['Name']; ?></title>
     </head>
     <body>
-        <?php}
-        else{?>
             <meta charset="UTF-8">
         <title></title>
     </head>
-    <body> <?php
-            echo mysqli_error($conn);
-        }
-        ?>
+    <body>
         <form action="addProject.php?id1=<?php echo $user_id; ?>&id2=<?php echo $o_id; ?>" method="POST">
             <select name="platform">
                 <option value=" " selected="1">Platform</option>
@@ -53,6 +50,10 @@ and open the template in the editor.
             <input type="submit" name="submitproject" value="submit">
         </form>
         <?php
+//        }
+//        catch(PDOException $e){
+//            echo $e->getMessage();
+//        }
         
         ?>
     </body>
