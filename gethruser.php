@@ -20,8 +20,17 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        <form action="addProject.php?id1=<?php echo $user_id; ?>&id2=<?php echo $o_id; ?>" method="POST">
-            <select name="region">
+        <form action="searchProject.php" method="POST">
+            <select id='region' aria-label="Region" name="Region" title="Region" style="height:40px; margin-left:560px;" onchange="getdata()">
+                <option value=" " selected="1">Region</option>
+                <?php
+                $var = $handler->query("select * from regions");
+                while($v = $var->fetch(PDO::FETCH_ASSOC)){
+                ?>
+                <option value="<?php echo $v['Region_id']; ?>"><?php echo $v['Region_Name']; ?></option>    
+                <?php } ?>
+            </select>
+            <select name="platform">
                 <option value=" " selected="1">Platform</option>
                 <option value="ARM">ARM</option>
                 <option value="x86">x86</option>
@@ -35,13 +44,6 @@ and open the template in the editor.
                 <option value="Arduino">Arduino</option>
                 <option value="Galileo">Galileo</option>
                 <option value="NodeMCU">NodeMCU</option>
-            </select>
-            <input type="text" name="link" placeholder="project link">
-            <textarea name="description">description</textarea>
-            <select name="school">
-                <option value=" " selected="1">School</option>
-                <option value="School1">School1</option>
-                <option value="School2">School2</option>
             </select>
             <input type="submit" name="submitproject" value="submit">
         </form>

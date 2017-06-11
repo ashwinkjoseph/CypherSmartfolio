@@ -38,8 +38,8 @@ and open the template in the editor.
                 $result2->bindParam(":user_id", $user_id, PDO::PARAM_INT);
                 $result2->execute();
                 $projects = array();
-                $var = mysqli_fetch_array($result);
-                $var2 = mysqli_fetch_array($result2);
+                $var = $result->fetch(PDO::FETCH_ASSOC);
+                $var2 = $result2->fetch(PDO::FETCH_ASSOC);
                 if($var2['Projects']!=""){
                     $projects = explode(",",$var2['Projects']);
                 }
