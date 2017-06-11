@@ -34,7 +34,7 @@ and open the template in the editor.
            </form>
            <?php
            session_start();
-           $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset==utf8", "root", "");
+           $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
            $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if(isset($_POST["login"])){
             $username=$_POST["email"];
@@ -59,7 +59,7 @@ and open the template in the editor.
                 <input type="text" name="name" placeholder="Name" style="width:150px; height:40px;margin-left:655px; margin-top:100px">         
                 <input type="email" name="email1" placeholder="Email ID" style="width:300px; height:40px;margin-left:650px;"></br><br>
                 <input type="password" name="password1" placeholder="New Password" style="width:300px; height:40px;margin-left:650px;"><br><br>
-                <input list="companies" name="comapnyname" style="width:150px; height:40px;margin-left:655px; margin-top:100px">
+                <input list="companies" name="companyname" style="width:150px; height:40px;margin-left:655px; margin-top:100px">
                 <datalist id="companies">
                     <?php
                     $query = "SELECT * FROM COMPANIES";
@@ -78,7 +78,8 @@ and open the template in the editor.
                 $first = $_POST["name"];
                 $email = $_POST["email1"];
                 $pass = $_POST["password1"];
-                $companyname = explode("-", mysqli_real_escape_string($conn, $_POST['companyname']));
+                $companyname = array();
+                $companyname = explode("-", $_POST['companyname']);
                 $companyid = $companyname[1];
                 $companykey = $_POST['companykey'];
                 $var = $handler->query("select * from COMPANIES");
@@ -91,7 +92,7 @@ and open the template in the editor.
                     }
                 }
                 $var = $handler->query("select * from hrlogins");
-                while($temp=mysqli_fetch_array($var)){
+                while($temp=$var->fetch(PDO::FETCH_ASSOC)){
                     if($temp["email"]==$email){
                         $flag=TRUE;
                     }

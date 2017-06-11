@@ -31,7 +31,7 @@ and open the template in the editor.
                 <?php } ?>
             </select>
             <select name="platform">
-                <option value=" " selected="1">Platform</option>
+                <option value="ALL" selected="1">Platform</option>
                 <option value="ARM">ARM</option>
                 <option value="x86">x86</option>
                 <option value="AVR">AVR</option>
@@ -39,7 +39,7 @@ and open the template in the editor.
             <input type="text" name="language" placeholder="language used">
             Leave this field if not related to hardware
             <select name="hardware">
-                <option value=" ">Hardware</option>
+                <option value="ALL">Hardware</option>
                 <option value="Raspberry Pi">Raspberry Pi</option>
                 <option value="Arduino">Arduino</option>
                 <option value="Galileo">Galileo</option>

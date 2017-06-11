@@ -15,18 +15,31 @@ and open the template in the editor.
         $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
         $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if(isset($_POST['submitproject'])){
-            $region = inval($_POST['Region']);
-            $platform = $_POST['platform'];
-            $language = $_POST['language'];
-            $hardware = $_POST['hardware'];
-            $sql = "SELECT o.id, o.Name FROM organisations AS o INNER JOIN regions AS r ON (o.Region_id = r.Region_id) WHERE r.Region_id = :rid";
+            $region = intval($_POST['Region']);
+            $platform = (isset($_POST['platform']))?$_POST['platform']:"ALL";
+            $language = ($_POST['language']!="")?$_POST['language']:"ALL";
+            $hardware = (isset($_POST['hardware']))?$_POST['hardware']:"ALL";
+            $sql = "SELECT o.id, o.Name, r.Region_Name FROM organisations AS o INNER JOIN regions AS r ON (o.Region_id = r.Region_id) WHERE r.Region_id = :rid";
             $org = $handler->prepare($sql);
             $org->bindParam(":rid", $region);
             $org->execute();
             while($oid = $org->fetch(PDO::FETCH_ASSOC)){
                 ?>
-                <h2><?php echo $oid['Name']; ?></h2>
-                <?php
+        <table border = "1">
+            <thead>
+            <tr>
+            <th>College</th>
+            <th>Student Name</th>
+            <th>Region Name</th>
+            <th>Platform</th>
+            <th>Language</th>
+            <th>Hardware</th>
+            <th>Project Link</th>
+            <th>Project Summary</th>
+            </tr>
+            </thead>
+            <tbody>
+        <?php
                 $pcon = "Platform=:platform";
                 $lcon = "Language=:language";
                 $hcon = "Hardware=:hardware";
@@ -41,7 +54,6 @@ and open the template in the editor.
                 }
                 $sql = "select * from projects where o_id = :oid";
                 foreach (array($pcon, $lcon, $hcon) as $con){
-                    $count++;
                     if($con!=""){
                         $sql = $sql." AND ".$con;
                     }
@@ -58,11 +70,32 @@ and open the template in the editor.
                     $query->bindParam(":hardware", $hardware);
                 }
                 if($query->execute()){
-                    
+                    while($var = $query->fetch(PDO::FETCH_ASSOC)){
+                        $sql = "SELECT Name FROM o".$oid['id']." WHERE id=".$var['user_id'];
+                        $query2 = $handler->query($sql);
+                        while($var2 = $query2->fetch(PDO::FETCH_ASSOC)){
+                        ?>
+                <tr>
+                <td><?php echo $oid['Name']; ?></td>
+                <td><a href="profileview.php?uid=<?php echo $var['user_id']; ?>&oid=<?php echo $oid['id']; ?>"><?php echo $var2['Name']; ?></a></td>
+                <td><?php echo $oid['Region_Name']; ?></td>
+                <td><?php echo $var['Platform']; ?></td>
+                <td><?php echo $var['Language']; ?></td>
+                <td><?php echo $var['Hardware']; ?></td>
+                <td><a href="<?php echo $var['Project_Link']; ?>"><?php echo $var['Project_Link']; ?></a></td>
+                <td><?php echo $var['Project_Summary']; ?></td>
+                </tr>
+                <?php
+                        }
+                    }
                 }
                 else{
                     die("Failed");
                 }
+                ?>
+                </tbody>
+                </table>
+                <?php 
             }
         }
         }
