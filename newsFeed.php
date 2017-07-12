@@ -3,22 +3,39 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <body>
-    <div class="container">
+    <div>
         <div class="row">
-            <div class="col-md-4">
-                <div id=
-                <div id="portfolio"></div>
-                <div id="freelancing"></div>
-                <div id="collaboration"></div>
-                <div id="Notesharing"></div>
-                <div id="College-board"></div>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-2" style="background-color:  3a739e; height:100%;">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <br><br>
+                        <div id="NewsFeed" style="background-color:black; padding-right:0px; text-align:center"><a href="/newsFeed.php" style="color: white">NewsFeed</a></div>
+                        <div id="portfolio" style="text-align:center"><a href="/portFolio.php" style="color:white">portFolio</a></div>
+                        <div id="freelancing"></div>
+                        <div id="collaboration"></div>
+                        <div id="Notesharing"></div>
+                        <div id="College-board"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10" style="background-color:black">
+            <br>
+                <div class="row">
+                    <div class="col-md-12" style="background-color: black">
                         <div class="row">
                             <div class="col-md-12">
-                                <div id="userOptions"></div>
+                                <div class="row">
+                                    <div class="col-md-11"></div>
+                                    <div class="col-md-1">
+                                        <div id="userOptions" style="color:white"><?php echo $_GET['id1']; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="addFolio"></div>
                             </div>
                         </div>
                     </div>

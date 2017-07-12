@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-md-2" style="background-color:  3a739e; height:100%;">
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-8">
+                    <!-- <div class="col-md-4"></div> -->
+                    <div class="col-md-12">
                         <br><br>
-                        <div id="NewsFeed"><a href="/newsFeed.php" style="color: white">NewsFeed</a></div>
-                        <div id="portfolio"><a href="/portFolio.php" style="color:white">portFolio</a></div>
+                        <div id="NewsFeed" style="text-align:center"><a href="/newsFeed.php" style="color: white">NewsFeed</a></div>
+                        <div id="portfolio" style="background-color:black; padding-right:0px; text-align:center"><a href="/portFolio.php" style="color:white;">portFolio</a></div>
                         <div id="freelancing"></div>
                         <div id="collaboration"></div>
                         <div id="Notesharing"></div>
