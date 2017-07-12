@@ -12,10 +12,11 @@
                         <br><br>
                         <div id="NewsFeed" style="background-color:black; padding-right:0px; text-align:center"><a href="/newsFeed.php" style="color: white">NewsFeed</a></div>
                         <div id="portfolio" style="text-align:center"><a href="/portFolio.php" style="color:white">portFolio</a></div>
-                        <div id="freelancing"></div>
-                        <div id="collaboration"></div>
-                        <div id="Notesharing"></div>
-                        <div id="College-board"></div>
+                        <div id="freelancing"style="text-align:center"><a href="/newsFeed.php" style="color: white">Free Lancing</a></div>
+                        <div id="collaboration"style="text-align:center"><a href="/newsFeed.php" style="color: white">Collaboration</a></div>
+                        <div id="Notesharing"style="text-align:center"><a href="/newsFeed.php" style="color: white">Note Sharing</a></div>
+                        <div id="College-board" style="text-align:center"><a href="/newsFeed.php" style="color: white">College Board</a></div>
+                        <div id="College-board" style="text-align:center"><a href="/newsFeed.php" style="color: white">Jobs</a></div>
                     </div>
                 </div>
             </div>
