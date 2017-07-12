@@ -9,7 +9,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Book Your Movie</title>
+        <title>SmartFolio</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <style>
             .wrapper {
@@ -82,7 +82,7 @@ and open the template in the editor.
                 $temp = $query->fetch(PDO::FETCH_ASSOC);
                 $id1 = $temp['user_id'];
                 $id2 = $temp['O_id'];
-                header("location:getuser.php?id1=".$id1."&id2=".$id2);
+                header("location:portFolio.php?id1=".$id1."&id2=".$id2);
             }
             else{
                  echo "<script>alert('The Credentials you entered are wrong')</script>";
@@ -153,9 +153,6 @@ and open the template in the editor.
         ?>
             
         </div>
-            <div class="wrapper" style="background-color: #3d3d3d;">
-                <font color="white">  Designed By Joseph Ashwin Kottapurath, MACE, Kothamangalam</font>
-      </div>
         </div>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>

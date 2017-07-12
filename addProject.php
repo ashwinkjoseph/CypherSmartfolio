@@ -14,15 +14,15 @@ and open the template in the editor.
         try{
         $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
         $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $user_id = intval($_GET['id1']);
-        $o_id = intval($_GET['id2']);
         if(isset($_POST['submitproject'])){
+            $user_id = intval($_POST['sid']);
+            $o_id = intval($_POST['oid']);
+            $school = $_POST['folio'];
             $platform = $_POST['platform'];
             $language = $_POST['language'];
             $hardware = $_POST['hardware'];
             $link = $_POST['link'];
             $description = $_POST['description'];
-            $school = $_POST['school'];
             $query = $handler->prepare("insert into projects values(Project_id, :platform, :language, :hardware, :link, :description, :user_id, :o_id, :school)");
             $query->bindParam(":platform", $platform);
             $query->bindParam(":language", $language);
@@ -50,14 +50,13 @@ and open the template in the editor.
                 $query->bindParam(":user_id", $user_id, PDO::PARAM_INT);
                 if($query->execute()){
                     echo "<script>alert('success');</alert>";
-                    header("location:getuser.php?id1=".$user_id."&id2=".$o_id);
                 }
                 else{
-                    die("Failed");
+                    echo("Failed");
                 }
             }
             else{
-                die("Failed");
+                echo("Failed");
             }
         }
         }
