@@ -24,12 +24,17 @@
                 <div class="row">
                     <div class="col-md-12" style="background-color: black">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="width:100%">
                                 <div class="row">
                                     <div class="col-md-11"></div>
                                     <div class="col-md-1">
                                         <div id="userOptions" style="color:white"><?php echo $_GET['id1']; ?></div>
                                     </div>
+                                </div>
+                                <div class="row" style="height:50px; background-color:grey;">
+                                    <div id="addNew" class="col-md-4" style="color:white">Add New Portfolios</div>
+                                    <div id="viewPortfolios" class="col-md-4" style="color:white">View Existing Portfolios</div>
+                                    <div id="search" class="col-md-4" style="color:white;">Search in Portfolios</div>
                                 </div>
                             </div>
                         </div>
@@ -46,6 +51,9 @@
             </div>
         </div>
     </div>
+    <script>
+        var viewPortfolios = document.getElementById("viewPortfolios");
+    </script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
