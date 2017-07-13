@@ -58,15 +58,13 @@ and open the template in the editor.
            </form>
            <?php
            $count = 0;
-           // PHP Data Objects(PDO) Sample Code:
-try {
-    $conn = new PDO("sqlsrv:server = tcp:smartfolio.database.windows.net,1433; Database = matthew", "matthew", "MaC3!333");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (PDOException $e) {
-    print("Error connecting to SQL Server.");
-    die(print_r($e));
-}
+           try{
+               $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
+               $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+           }
+           catch(PDOException $e){
+               die("Sorry, Error Establishing Connection To Database");
+           }
            class logindetails{
                public function __construct() {
                    $count++;
