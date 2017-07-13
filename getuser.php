@@ -8,7 +8,7 @@ and open the template in the editor.
     <head>
         <?php
         try{
-        $handler = new PDO("mysql:host=13.95.219.185;dbname=matthew;charset=utf8", "root", "");
+        $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "ashwin", "ashwin");
         $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $user_id = intval($_GET['id1']);
         $o_id = intval($_GET['id2']);

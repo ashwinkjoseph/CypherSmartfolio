@@ -14,7 +14,7 @@ and open the template in the editor.
             <option value =" " selected="1">Organisation</option>
             <?php 
             try{
-            $handler = new PDO("mysql:host=13.95.219.185;dbname=matthew;charset=utf8", "root", "");
+            $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "ashwin", "ashwin");
             $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $o_id = intval($_GET['q']);
             $result = $handler->prepare("select * from organisations where Region_id = :o_id");
