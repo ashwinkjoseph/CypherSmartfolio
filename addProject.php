@@ -12,7 +12,7 @@ and open the template in the editor.
     <body>
         <?php
         try{
-        $handler = new PDO("mysql:host=127.0.0.1;dbname=matthew;charset=utf8", "root", "");
+        $handler = new PDO("mysql:host=13.95.219.185;dbname=matthew;charset=utf8", "root", "");
         $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if(isset($_POST['submitproject'])){
             $user_id = intval($_POST['sid']);
